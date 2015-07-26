@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FeedUri>http://extratorrent.cc/rss.xml?type=search&amp;cid=8&amp;search=ettv+HDTV</FeedUri>
+  <DownloadDir>e:\Source\</DownloadDir>
+  <Items>
+    <DownloadItem>
+      <Match>Under the Dome</Match>
+      <LastMatched>2015-07-24T21:55:03.6411495+02:00</LastMatched>
+    </DownloadItem>
+  </Items>
+</Settings>
