@@ -13,7 +13,7 @@ namespace SimpleFeedDownloader
     {
         #region Properties
         private const string SettingsFileName = "SimpleFeedDownloader.settings";
-        private static Settings settings;
+        private static Settings settings, settingsToSave;
         private static List<string> matches = new List<string>();
         #endregion
 
@@ -22,7 +22,11 @@ namespace SimpleFeedDownloader
         {
             ReadSettings();
             if (settings == null)
+            {
+                Console.WriteLine("Error: No settings found.");
+                
                 return;
+            }
 
             Uri feedUri = new Uri(settings.FeedUri);
             RssFeed feed = RssFeed.Create(feedUri);
@@ -43,10 +47,11 @@ namespace SimpleFeedDownloader
                         if (fileUri != null)
                         {
                             DownloadItem matchedItem = settings.Items.Where(i => item.Title.StartsWith(i.Match, StringComparison.OrdinalIgnoreCase)).First();
+                            DownloadItem matchedItemToSave = settings.Items.Where(i => item.Title.StartsWith(i.Match, StringComparison.OrdinalIgnoreCase)).First();
                             DateTime lastMatch = matchedItem.LastMatched;
                             
                             if (item.PublicationDate > lastMatch)
-                                DownloadFile(fileUri, matchedItem);
+                                DownloadFile(fileUri, matchedItemToSave);
                         }
                     }
                 }
@@ -81,9 +86,12 @@ namespace SimpleFeedDownloader
             {
                 XmlSerializer ser = new XmlSerializer(typeof(Settings));
                 using (StreamReader sr = new StreamReader(SettingsFileName))
-                    settings = (Settings) ser.Deserialize(sr);
+                {
+                    settings = (Settings)ser.Deserialize(sr);
+                    settingsToSave = (Settings)ser.Deserialize(sr);
+                }
 
-                foreach(DownloadItem item in settings.Items)
+                foreach (DownloadItem item in settings.Items)
                     matches.Add(item.Match);
             }
         }
@@ -92,7 +100,7 @@ namespace SimpleFeedDownloader
         {
             XmlSerializer ser = new XmlSerializer(typeof(Settings));
             using (StreamWriter sw = new StreamWriter(SettingsFileName))
-                ser.Serialize(sw, settings);
+                ser.Serialize(sw, settingsToSave);
         }
         #endregion
     }
