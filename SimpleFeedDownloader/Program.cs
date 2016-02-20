@@ -88,6 +88,10 @@ namespace SimpleFeedDownloader
                 using (StreamReader sr = new StreamReader(SettingsFileName))
                 {
                     settings = (Settings)ser.Deserialize(sr);
+                }
+                ser = new XmlSerializer(typeof(Settings));
+                using (StreamReader sr = new StreamReader(SettingsFileName))
+                {
                     settingsToSave = (Settings)ser.Deserialize(sr);
                 }
 
