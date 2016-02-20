@@ -47,7 +47,7 @@ namespace SimpleFeedDownloader
                         if (fileUri != null)
                         {
                             DownloadItem matchedItem = settings.Items.Where(i => item.Title.StartsWith(i.Match, StringComparison.OrdinalIgnoreCase)).First();
-                            DownloadItem matchedItemToSave = settings.Items.Where(i => item.Title.StartsWith(i.Match, StringComparison.OrdinalIgnoreCase)).First();
+                            DownloadItem matchedItemToSave = settingsToSave.Items.Where(i => item.Title.StartsWith(i.Match, StringComparison.OrdinalIgnoreCase)).First();
                             DateTime lastMatch = matchedItem.LastMatched;
                             
                             if (item.PublicationDate > lastMatch)
