@@ -28,8 +28,27 @@ namespace SimpleFeedDownloader
                 return;
             }
 
+            // Set the proxy if configured
+            WebProxy wp = null;
+            if (!string.IsNullOrEmpty(settings.ProxyUri))
+            {
+                NetworkCredential nc = null;
+                if (!string.IsNullOrEmpty(settings.ProxyUserName))
+                    nc = new NetworkCredential(settings.ProxyUserName, settings.ProxyPassword);
+
+                if (nc == null)
+                    wp = new WebProxy(settings.ProxyUri);
+                else
+                    wp = new WebProxy(settings.ProxyUri, true, new string[] { }, nc);
+            }
+
             Uri feedUri = new Uri(settings.FeedUri);
-            RssFeed feed = RssFeed.Create(feedUri);
+            RssFeed feed = null;
+            if (wp == null)
+                feed = RssFeed.Create(feedUri);
+            else
+                feed = RssFeed.Create(feedUri, null, wp);
+
             foreach (RssItem item in feed.Channel.Items)
             {
                 // Match the title

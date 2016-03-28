@@ -9,6 +9,9 @@ namespace SimpleFeedDownloader.Data
     public class Settings
     {
         public string FeedUri;
+        public string ProxyUri;
+        public string ProxyUserName;
+        public string ProxyPassword;
         public string DownloadDir;
         public List<DownloadItem> Items;
     }

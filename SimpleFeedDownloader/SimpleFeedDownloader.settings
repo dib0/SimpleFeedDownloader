@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <FeedUri>http://extratorrent.cc/rss.xml?cid=8</FeedUri>
+  <FeedUri><![CDATA[http://extratorrent.cc/rss.xml?type=search&cid=8&search=ettv]]></FeedUri>
   <DownloadDir>/home/bas/torrents/</DownloadDir>
   <Items>
     <DownloadItem>
@@ -149,7 +149,7 @@
     </DownloadItem>
     <DownloadItem>
       <Match>The.100</Match>
-      <LastMatched>2016-02-14T10:30:20.502855+01:00</LastMatched>
+      <LastMatched>2016-02-20T10:30:20.502855+01:00</LastMatched>
     </DownloadItem>
     <DownloadItem>
       <Match>Dark Matter</Match>
