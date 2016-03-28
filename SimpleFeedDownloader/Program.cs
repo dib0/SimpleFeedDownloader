@@ -15,6 +15,7 @@ namespace SimpleFeedDownloader
         private const string SettingsFileName = "SimpleFeedDownloader.settings";
         private static Settings settings, settingsToSave;
         private static List<string> matches = new List<string>();
+        private static WebProxy proxy = null;
         #endregion
 
         #region Static methods
@@ -29,7 +30,6 @@ namespace SimpleFeedDownloader
             }
 
             // Set the proxy if configured
-            WebProxy wp = null;
             if (!string.IsNullOrEmpty(settings.ProxyUri))
             {
                 NetworkCredential nc = null;
@@ -37,17 +37,17 @@ namespace SimpleFeedDownloader
                     nc = new NetworkCredential(settings.ProxyUserName, settings.ProxyPassword);
 
                 if (nc == null)
-                    wp = new WebProxy(settings.ProxyUri);
+                    proxy = new WebProxy(settings.ProxyUri);
                 else
-                    wp = new WebProxy(settings.ProxyUri, true, new string[] { }, nc);
+                    proxy = new WebProxy(settings.ProxyUri, true, new string[] { }, nc);
             }
 
             Uri feedUri = new Uri(settings.FeedUri);
             RssFeed feed = null;
-            if (wp == null)
+            if (proxy == null)
                 feed = RssFeed.Create(feedUri);
             else
-                feed = RssFeed.Create(feedUri, null, wp);
+                feed = RssFeed.Create(feedUri, null, proxy);
 
             foreach (RssItem item in feed.Channel.Items)
             {
@@ -94,6 +94,10 @@ namespace SimpleFeedDownloader
         private static void DownloadFile(Uri link, DownloadItem item)
         {
             WebClient wc = new WebClient();
+
+            if (proxy != null)
+                wc.Proxy = proxy;
+
             wc.DownloadFile(link, settings.DownloadDir + link.Segments[link.Segments.Count() - 1]);
 
             item.LastMatched = DateTime.Now;
