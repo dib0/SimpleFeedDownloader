@@ -42,6 +42,9 @@ namespace SimpleFeedDownloader
                     proxy = new WebProxy(settings.ProxyUri, true, new string[] { }, nc);
             }
 
+            // Handle certificates
+            ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy();
+
             Uri feedUri = new Uri(settings.FeedUri);
             RssFeed feed = null;
             if (proxy == null)
